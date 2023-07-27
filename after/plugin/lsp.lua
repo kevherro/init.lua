@@ -54,6 +54,17 @@ end)
 
 lsp.setup()
 
+require('lspconfig.configs').sourcekit_lsp = {
+    default_config = {
+        name = 'sourcekit_lsp',
+        cmd = {'sourcekit-lsp'},
+        filetypes = {'swift'},
+        root_dir = require('lspconfig.util').root_pattern({'Package.swift'})
+    }
+}
+
+require('lspconfig').sourcekit_lsp.setup({})
+
 vim.diagnostic.config({
     virtual_text = true
 })
