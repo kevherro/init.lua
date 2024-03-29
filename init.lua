@@ -126,16 +126,16 @@ lazy.setup({
   --{'akinsho/toggleterm.nvim'},
 
   -- LSP support
-  { "neovim/nvim-lspconfig" },
-  { "williamboman/mason.nvim" },
-  { "williamboman/mason-lspconfig.nvim" },
+  --{ "neovim/nvim-lspconfig" },
+  --{ "williamboman/mason.nvim" },
+  --{ "williamboman/mason-lspconfig.nvim" },
 
-  -- Autocomplete
-  { "hrsh7th/nvim-cmp" },
-  { "hrsh7th/cmp-buffer" },
-  { "hrsh7th/cmp-path" },
-  { "saadparwaiz1/cmp_luasnip" },
-  { "hrsh7th/cmp-nvim-lsp" },
+  ---- Autocomplete
+  --{ "hrsh7th/nvim-cmp" },
+  --{ "hrsh7th/cmp-buffer" },
+  --{ "hrsh7th/cmp-path" },
+  --{ "saadparwaiz1/cmp_luasnip" },
+  --{ "hrsh7th/cmp-nvim-lsp" },
 
   -- Snippets
   { "L3MON4D3/LuaSnip" },
@@ -218,108 +218,3 @@ require("telescope").load_extension("fzf")
 
 -- Luasnip (snippet engine) ----------------------------------------------------
 require("luasnip.loaders.from_vscode").lazy_load()
-
--- nvim-cmp (autocomplete) -----------------------------------------------------
-vim.opt.completeopt = { "menu", "menuone", "noselect" }
-
-local cmp = require("cmp")
-local luasnip = require("luasnip")
-
-local select_opts = { behavior = cmp.SelectBehavior.Select }
-
--- :help cmp-config
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  sources = {
-    { name = "path" },
-    { name = "nvim_lsp" },
-    { name = "buffer", keyword_length = 3 },
-    { name = "luasnip", keyword_length = 2 },
-  },
-  window = {
-    --completion = cmp.config.window.bordered(),
-    --documentation = cmp.config.window.bordered(),
-  },
-  formatting = {
-    fields = { "menu", "abbr", "kind" },
-    format = function(entry, item)
-      local menu_icon = {
-        nvim_lsp = "λ",
-        luasnip = "⋗",
-        buffer = "Ω",
-        path = " ",
-      }
-      item.menu = menu_icon[entry.source.name]
-      return item
-    end,
-  },
-  -- :help cmp-mapping
-  mapping = {
-    ["<Up>"] = cmp.mapping.select_prev_item(select_opts),
-  },
-})
-
--- LSP Servers -----------------------------------------------------------------
-require("mason").setup({
-  ui = { border = "rounded" },
-})
-
-local lspconfig = require("lspconfig")
-local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-
--- :help mason-lspconfig-settings
-require("mason-lspconfig").setup({
-  ensure_installed = {
-    "gopls",
-    "lua_ls",
-    "rust_analyzer",
-  },
-  -- :help mason-lspconfig.setup_handlers()
-  handlers = {
-    function(server)
-      -- :help lspconfig-setup
-      lspconfig[server].setup({
-        capabilities = lsp_capabilities,
-      })
-    end,
-    ["gopls"] = function()
-      lspconfig.gopls.setup({
-        capabilities = lsp_capabilities,
-        settings = {
-          completions = {
-            completeFunctionCalls = true,
-          },
-        },
-      })
-    end,
-    ["lua_ls"] = function()
-      lspconfig.gopls.setup({
-        capabilities = lsp_capabilities,
-        settings = {
-          completions = {
-            completeFunctionCalls = true,
-          },
-          Lua = {
-            diagnostics = {
-              globals = { "vim" }, -- Fix undefined global 'vim'
-            },
-          },
-        },
-      })
-    end,
-    ["rust_analyzer"] = function()
-      lspconfig.rust_analyzer.setup({
-        capabilities = lsp_capabilities,
-        settings = {
-          completions = {
-            completeFunctionCalls = true,
-          },
-        },
-      })
-    end,
-  },
-})
