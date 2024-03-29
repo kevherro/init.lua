@@ -1,3 +1,6 @@
+-- Reference:
+-- https://github.com/VonHeikemen/nvim-starter/blob/04-lsp-installer/init.lua
+--
 -- OPTIONS =====================================================================
 
 vim.g.mapleader = " "
