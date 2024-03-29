@@ -1,4 +1,5 @@
-# Introduction
+## TODO
 
-    cargo install stylua --force
-    make format
+* [ ]  lsp
+
+* [ ]  autocomplete + copilot

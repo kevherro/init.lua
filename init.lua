@@ -1,6 +1,8 @@
 -- Reference:
 -- https://github.com/VonHeikemen/nvim-starter/blob/04-lsp-installer/init.lua
 --
+-- Format with :make fmt
+--
 -- OPTIONS =====================================================================
 
 vim.g.mapleader = " "
