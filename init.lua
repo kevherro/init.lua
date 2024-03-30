@@ -111,7 +111,7 @@ lazy.setup({
   { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 
   -- Git
-  { "lewis6991/gitsigns.nvim" },
+  -- { "lewis6991/gitsigns.nvim" },
   { "tpope/vim-fugitive" },
 
   -- Code manipulation
@@ -143,8 +143,8 @@ lazy.setup({
   -- { "zbirenbaum/copilot.lua" },
 
   -- Snippets
-  { "L3MON4D3/LuaSnip" },
-  { "rafamadriz/friendly-snippets" },
+  --{ "L3MON4D3/LuaSnip" },
+  --{ "rafamadriz/friendly-snippets" },
 })
 
 -- PLUGIN CONFIGURATION ========================================================
@@ -195,6 +195,7 @@ require("nvim-treesitter.configs").setup({
     "go",
     "json",
     "lua",
+    "markdown",
     "rust",
     "swift",
     "vim",
@@ -222,4 +223,4 @@ vim.keymap.set("n", "<leader>vh", builtin.help_tags, {})
 require("telescope").load_extension("fzf")
 
 -- Luasnip (snippet engine) ----------------------------------------------------
-require("luasnip.loaders.from_vscode").lazy_load()
+--require("luasnip.loaders.from_vscode").lazy_load()
