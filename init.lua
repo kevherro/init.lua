@@ -112,14 +112,14 @@ lazy.setup({
   { "nvim-lua/plenary.nvim" },
 
   -- LSP support
-  { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
-  { "neovim/nvim-lspconfig" },
+  --{ "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
+  --{ "neovim/nvim-lspconfig" },
 
   -- Autocomplete
-  { "hrsh7th/nvim-cmp" },
-  { "hrsh7th/cmp-nvim-lsp" },
-  { "hrsh7th/cmp-buffer" },
-  { "L3MON4D3/LuaSnip" },
+  --{ "hrsh7th/nvim-cmp" },
+  --{ "hrsh7th/cmp-nvim-lsp" },
+  --{ "hrsh7th/cmp-buffer" },
+  --{ "L3MON4D3/LuaSnip" },
 
   -- Copilot
   { "github/copilot.vim" },
@@ -190,28 +190,28 @@ end)
 require("telescope").load_extension("fzf")
 
 -- Luasnip (snippet engine) ----------------------------------------------------
-require("luasnip.loaders.from_vscode").lazy_load()
+--require("luasnip.loaders.from_vscode").lazy_load()
 
 -- LSP, CMP, Copilot -----------------------------------------------------------
-local lsp_zero = require("lsp-zero")
-
-lsp_zero.on_attach(function(client, bufnr)
-  lsp_zero.default_keymaps({ buffer = bufnr, preserve_mappings = false })
-end)
-
-local cmp = require("cmp")
-local cmp_action = lsp_zero.cmp_action()
-
-cmp.setup({
-  sources = {
-    { name = "copilot" },
-    { name = "nvim_lsp" },
-    { name = "buffer" },
-  },
-  formatting = lsp_zero.cmp_format({ details = true }),
-  snippet = {
-    expand = function(args)
-      require("luasnip").lsp_expand(args.body)
-    end,
-  },
-})
+--local lsp_zero = require("lsp-zero")
+--
+--lsp_zero.on_attach(function(client, bufnr)
+--  lsp_zero.default_keymaps({ buffer = bufnr, preserve_mappings = false })
+--end)
+--
+--local cmp = require("cmp")
+--local cmp_action = lsp_zero.cmp_action()
+--
+--cmp.setup({
+--  sources = {
+--    { name = "copilot" },
+--    { name = "nvim_lsp" },
+--    { name = "buffer" },
+--  },
+--  formatting = lsp_zero.cmp_format({ details = true }),
+--  snippet = {
+--    expand = function(args)
+--      require("luasnip").lsp_expand(args.body)
+--    end,
+--  },
+--})
