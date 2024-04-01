@@ -93,18 +93,9 @@ lazy.opts = {}
 
 lazy.setup({
   -- Theming
-  --{'folke/tokyonight.nvim'},
-  --{'joshdick/onedark.vim'},
-  --{'tanvirtin/monokai.nvim'},
-  --{'lunarvim/darkplus.nvim'},
-  --{'kyazdani42/nvim-web-devicons'},
   { "nvim-lualine/lualine.nvim" },
-  --{'akinsho/bufferline.nvim'},
   { "gruvbox-community/gruvbox" },
   { "lukas-reineke/indent-blankline.nvim", version = "3.x" },
-
-  -- File explorer
-  --{'kyazdani42/nvim-tree.lua'},
 
   -- Fuzzy finder
   { "nvim-telescope/telescope.nvim", tag = "0.1.6" },
@@ -116,35 +107,22 @@ lazy.setup({
 
   -- Code manipulation
   { "nvim-treesitter/nvim-treesitter" },
-  --{ "nvim-treesitter/nvim-treesitter-textobjects" },
-  --{'numToStr/Comment.nvim'},
-  --{'tpope/vim-surround'},
-  --{'wellle/targets.vim'},
-  --{'tpope/vim-repeat'},
 
   -- Utilities
-  --{'moll/vim-bbye'},
   { "nvim-lua/plenary.nvim" },
-  --{'akinsho/toggleterm.nvim'},
 
   -- LSP support
-  --{ "neovim/nvim-lspconfig" },
-  --{ "williamboman/mason.nvim" },
-  --{ "williamboman/mason-lspconfig.nvim" },
+  { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
+  { "neovim/nvim-lspconfig" },
 
   -- Autocomplete
-  --{ "hrsh7th/nvim-cmp" },
-  --{ "hrsh7th/cmp-buffer" },
-  --{ "hrsh7th/cmp-path" },
-  --{ "saadparwaiz1/cmp_luasnip" },
-  --{ "hrsh7th/cmp-nvim-lsp" },
+  { "hrsh7th/nvim-cmp" },
+  { "hrsh7th/cmp-nvim-lsp" },
+  { "hrsh7th/cmp-buffer" },
+  { "L3MON4D3/LuaSnip" },
 
   -- Copilot
-  -- { "zbirenbaum/copilot.lua" },
-
-  -- Snippets
-  --{ "L3MON4D3/LuaSnip" },
-  --{ "rafamadriz/friendly-snippets" },
+  { "github/copilot.vim" },
 })
 
 -- PLUGIN CONFIGURATION ========================================================
@@ -200,14 +178,40 @@ require("ibl").setup({
 
 -- Telescope -------------------------------------------------------------------
 local builtin = require("telescope.builtin")
+
 vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
 vim.keymap.set("n", "<C-p>", builtin.git_files, {})
+vim.keymap.set("n", "<leader>vh", builtin.help_tags, {})
+
 vim.keymap.set("n", "<leader>ps", function()
   builtin.grep_string({ search = vim.fn.input("Grep > ") })
 end)
-vim.keymap.set("n", "<leader>vh", builtin.help_tags, {})
 
 require("telescope").load_extension("fzf")
 
 -- Luasnip (snippet engine) ----------------------------------------------------
---require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_vscode").lazy_load()
+
+-- LSP, CMP, Copilot -----------------------------------------------------------
+local lsp_zero = require("lsp-zero")
+
+lsp_zero.on_attach(function(client, bufnr)
+  lsp_zero.default_keymaps({ buffer = bufnr, preserve_mappings = false })
+end)
+
+local cmp = require("cmp")
+local cmp_action = lsp_zero.cmp_action()
+
+cmp.setup({
+  sources = {
+    { name = "copilot" },
+    { name = "nvim_lsp" },
+    { name = "buffer" },
+  },
+  formatting = lsp_zero.cmp_format({ details = true }),
+  snippet = {
+    expand = function(args)
+      require("luasnip").lsp_expand(args.body)
+    end,
+  },
+})
