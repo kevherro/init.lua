@@ -85,6 +85,7 @@ function lazy.setup(plugins)
   vim.opt.rtp:prepend(lazy.path)
 
   require("lazy").setup(plugins, lazy.opts)
+
   vim.g.plugins_ready = true
 end
 
@@ -102,7 +103,6 @@ lazy.setup({
   { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 
   -- Git
-  -- { "lewis6991/gitsigns.nvim" },
   { "tpope/vim-fugitive" },
 
   -- Code manipulation
@@ -111,16 +111,6 @@ lazy.setup({
   -- Utilities
   { "nvim-lua/plenary.nvim" },
 
-  -- LSP support
-  --{ "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
-  --{ "neovim/nvim-lspconfig" },
-
-  -- Autocomplete
-  --{ "hrsh7th/nvim-cmp" },
-  --{ "hrsh7th/cmp-nvim-lsp" },
-  --{ "hrsh7th/cmp-buffer" },
-  --{ "L3MON4D3/LuaSnip" },
-
   -- Copilot
   -- { "github/copilot.vim" },
   { "Exafunction/codeium.vim" },
@@ -128,19 +118,16 @@ lazy.setup({
 
 -- PLUGIN CONFIGURATION ========================================================
 
--- Colorscheme -----------------------------------------------------------------
 vim.opt.termguicolors = true
 vim.cmd.colorscheme("gruvbox")
 
--- lualine.nvim (statusline) ---------------------------------------------------
-vim.opt.showmode = false
+vim.opt.showmode = false -- remove mode from statusline
 
--- See :help lualine.txt
 require("lualine").setup({
   options = {
     theme = "gruvbox",
     icons_enabled = false,
-    component_separators = ":",
+    component_separators = ",",
     section_separators = "",
     disabled_filetypes = {
       statusline = { "NvimTree" },
@@ -148,7 +135,6 @@ require("lualine").setup({
   },
 })
 
--- Treesitter ------------------------------------------------------------------
 require("nvim-treesitter.configs").setup({
   sync_install = false,
   auto_install = false,
@@ -162,6 +148,7 @@ require("nvim-treesitter.configs").setup({
     "json",
     "lua",
     "markdown",
+    "python",
     "rust",
     "swift",
     "vim",
@@ -169,7 +156,6 @@ require("nvim-treesitter.configs").setup({
   },
 })
 
--- Indent-blankline ------------------------------------------------------------
 require("ibl").setup({
   enabled = true,
   scope = {
@@ -177,7 +163,6 @@ require("ibl").setup({
   },
 })
 
--- Telescope -------------------------------------------------------------------
 local builtin = require("telescope.builtin")
 
 vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
@@ -189,30 +174,3 @@ vim.keymap.set("n", "<leader>ps", function()
 end)
 
 require("telescope").load_extension("fzf")
-
--- Luasnip (snippet engine) ----------------------------------------------------
---require("luasnip.loaders.from_vscode").lazy_load()
-
--- LSP, CMP, Copilot -----------------------------------------------------------
---local lsp_zero = require("lsp-zero")
---
---lsp_zero.on_attach(function(client, bufnr)
---  lsp_zero.default_keymaps({ buffer = bufnr, preserve_mappings = false })
---end)
---
---local cmp = require("cmp")
---local cmp_action = lsp_zero.cmp_action()
---
---cmp.setup({
---  sources = {
---    { name = "copilot" },
---    { name = "nvim_lsp" },
---    { name = "buffer" },
---  },
---  formatting = lsp_zero.cmp_format({ details = true }),
---  snippet = {
---    expand = function(args)
---      require("luasnip").lsp_expand(args.body)
---    end,
---  },
---})
