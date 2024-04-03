@@ -122,7 +122,8 @@ lazy.setup({
   --{ "L3MON4D3/LuaSnip" },
 
   -- Copilot
-  { "github/copilot.vim" },
+  -- { "github/copilot.vim" },
+  { "Exafunction/codeium.vim" },
 })
 
 -- PLUGIN CONFIGURATION ========================================================
