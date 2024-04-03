@@ -111,6 +111,9 @@ lazy.setup({
   -- Utilities
   { "nvim-lua/plenary.nvim" },
 
+  -- LSP
+  { "" },
+
   -- Copilot
   -- { "github/copilot.vim" },
   { "Exafunction/codeium.vim" },
@@ -143,11 +146,9 @@ require("nvim-treesitter.configs").setup({
     additional_vim_regex_highlighting = false,
   },
   ensure_installed = {
-    "bash",
     "go",
     "json",
     "lua",
-    "markdown",
     "python",
     "rust",
     "swift",
