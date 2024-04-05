@@ -94,9 +94,38 @@ lazy.opts = {}
 
 lazy.setup({
   -- Theming
-  { "nvim-lualine/lualine.nvim" },
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VimEnter", -- Ensure lualine loads at the start
+    config = function()
+      require("lualine").setup({
+        options = {
+          theme = "gruvbox",
+          icons_enabled = false,
+          component_separators = ",",
+          section_separators = "",
+          disabled_filetypes = {
+            statusline = { "NvimTree" },
+          },
+        },
+      })
+    end,
+  },
+
   { "gruvbox-community/gruvbox" },
-  { "lukas-reineke/indent-blankline.nvim", version = "3.x" },
+
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    version = "3.x",
+    config = function()
+      require("ibl").setup({
+        enabled = true,
+        scope = {
+          enabled = false,
+        },
+      })
+    end,
+  },
 
   -- Fuzzy finder
   { "nvim-telescope/telescope.nvim", tag = "0.1.6" },
@@ -106,7 +135,29 @@ lazy.setup({
   { "tpope/vim-fugitive" },
 
   -- Code manipulation
-  { "nvim-treesitter/nvim-treesitter" },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        sync_install = false,
+        auto_install = false,
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+        ensure_installed = {
+          "go",
+          "json",
+          "lua",
+          "python",
+          "rust",
+          "swift",
+          "vim",
+          "vimdoc",
+        },
+      })
+    end,
+  },
 
   -- Utilities
   { "nvim-lua/plenary.nvim" },
@@ -116,7 +167,10 @@ lazy.setup({
 
   -- Copilot
   -- { "github/copilot.vim" },
-  { "Exafunction/codeium.vim" },
+  {
+    "Exafunction/codeium.vim",
+    cmd = "Codeium",
+  },
 })
 
 -- PLUGIN CONFIGURATION ========================================================
@@ -125,44 +179,6 @@ vim.opt.termguicolors = true
 vim.cmd.colorscheme("gruvbox")
 
 vim.opt.showmode = false -- remove mode from statusline
-
-require("lualine").setup({
-  options = {
-    theme = "gruvbox",
-    icons_enabled = false,
-    component_separators = ",",
-    section_separators = "",
-    disabled_filetypes = {
-      statusline = { "NvimTree" },
-    },
-  },
-})
-
-require("nvim-treesitter.configs").setup({
-  sync_install = false,
-  auto_install = false,
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-  ensure_installed = {
-    "go",
-    "json",
-    "lua",
-    "python",
-    "rust",
-    "swift",
-    "vim",
-    "vimdoc",
-  },
-})
-
-require("ibl").setup({
-  enabled = true,
-  scope = {
-    enabled = false,
-  },
-})
 
 local builtin = require("telescope.builtin")
 

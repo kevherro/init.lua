@@ -2,8 +2,8 @@
 deps:
 	@cargo install stylua --force
 
-.PHONY: fmt
-fmt:
+.PHONY: format
+format:
 	@stylua .
 
 .PHONY: help
@@ -12,4 +12,4 @@ help:
 	@echo ""
 	@echo "Commands:"
 	@echo "  deps\t Install dependencies"
-	@echo "  fmt\t Format init.lua"
+	@echo "  format\t Format init.lua"
