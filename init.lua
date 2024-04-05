@@ -96,7 +96,7 @@ lazy.setup({
   -- Theming
   {
     "nvim-lualine/lualine.nvim",
-    event = "VimEnter", -- Ensure lualine loads at the start
+    event = "VimEnter",
     config = function()
       require("lualine").setup({
         options = {
@@ -117,6 +117,7 @@ lazy.setup({
   {
     "lukas-reineke/indent-blankline.nvim",
     version = "3.x",
+    event = "VimEnter",
     config = function()
       require("ibl").setup({
         enabled = true,
@@ -137,6 +138,7 @@ lazy.setup({
   -- Code manipulation
   {
     "nvim-treesitter/nvim-treesitter",
+    event = "VimEnter",
     config = function()
       require("nvim-treesitter.configs").setup({
         sync_install = false,
